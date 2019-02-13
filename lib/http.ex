@@ -3,8 +3,9 @@ defmodule ChromeRemoteInterface.HTTP do
   This module handles communicating with the DevTools HTTP JSON API.
   """
 
-  @type success_http_response :: {:ok, Map.t}
+  @type success_http_response :: {:ok, Map.t | List.t}
   @type error_http_response :: {:error, any()}
+  @type success_http_response_short :: Map.t | List.t
 
   @spec call(ChromeRemoteInterface.Server.t, String.t) :: success_http_response | error_http_response
   def call(server, path) do

@@ -40,6 +40,19 @@ defmodule ChromeRemoteInterface.Session do
   end
 
   @doc """
+  List all Pages.
+
+  Calls `/json/list`.
+  """
+  @spec list_pages!(Server.t) :: HTTP.success_http_response_short | Exception.t
+  def list_pages!(server) do
+    case list_pages(server) do
+      {:ok, resp} -> resp
+      {:error, error}  -> raise(error)
+    end
+  end
+
+  @doc """
   Creates a new Page.
 
   Calls `/json/new`.
@@ -48,6 +61,19 @@ defmodule ChromeRemoteInterface.Session do
   def new_page(server) do
     server
     |> HTTP.call("/json/new")
+  end
+
+  @doc """
+  Creates a new Page.
+
+  Calls `/json/new`.
+  """
+  @spec new_page!(Server.t) :: HTTP.success_http_response_short | Exception.t
+  def new_page!(server) do
+    case new_page(server) do
+      {:ok, resp} -> resp
+      {:error, error}  -> raise(error)
+    end
   end
 
   @doc """
