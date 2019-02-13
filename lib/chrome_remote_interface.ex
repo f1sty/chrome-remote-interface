@@ -6,8 +6,15 @@ defmodule ChromeRemoteInterface do
   alias ChromeRemoteInterface.PageSession
 
   protocol =
-    File.read!("priv/protocol.json")
-    |> Poison.decode!()
+    with {:ok, _} <- Application.ensure_all_started(:hackney),
+         {:ok, _, _, proto} <-
+           :hackney.get("http://localhost:9222/json/protocol/", [], "", [:with_body]) do
+      Poison.decode!(proto)
+    else
+      _ -> # fallback to static protocol file
+        File.read!("priv/protocol.json")
+        |> Poison.decode!()
+    end
 
   # Generate ChromeRemoteInterface.RPC Modules
 
